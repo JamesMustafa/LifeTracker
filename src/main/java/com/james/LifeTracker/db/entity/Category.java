@@ -19,16 +19,13 @@ public class Category extends BaseEntity {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
-    @OneToMany(mappedBy = "category", targetEntity = Note.class,
-            fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "category", targetEntity = Note.class, cascade = CascadeType.ALL)
     private List<Note> notes;
 
-    @OneToMany(mappedBy = "category", targetEntity = Event.class,
-            fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "category", targetEntity = Event.class, cascade = CascadeType.ALL)
     private List<Event> events;
 
-    @OneToMany(mappedBy = "category", targetEntity = Problem.class,
-            fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "category", targetEntity = Problem.class, cascade = CascadeType.ALL)
     private List<Problem> problems;
 
     public Category() {
@@ -63,4 +60,20 @@ public class Category extends BaseEntity {
     public List<Note> getNotes() { return notes; }
 
     public void setNotes(List<Note> notes) { this.notes = notes; }
+
+    public List<Event> getEvents() {
+        return events;
+    }
+
+    public void setEvents(List<Event> events) {
+        this.events = events;
+    }
+
+    public List<Problem> getProblems() {
+        return problems;
+    }
+
+    public void setProblems(List<Problem> problems) {
+        this.problems = problems;
+    }
 }
