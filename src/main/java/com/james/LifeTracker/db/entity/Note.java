@@ -9,7 +9,7 @@ import javax.persistence.*;
 @Table(name = "notes")
 public class Note extends BaseEntity {
 
-    @Column(name = "description", columnDefinition = "TEXT")
+    @Column(name = "description", columnDefinition = "TEXT", nullable = false)
     private String description;
 
     @ManyToOne(targetEntity = Category.class)

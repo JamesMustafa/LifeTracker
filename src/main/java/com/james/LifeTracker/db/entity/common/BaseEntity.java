@@ -13,9 +13,13 @@ public abstract class BaseEntity {
     @Column(name = "created_on")
     private LocalDateTime createdOn;
 
+    @Column(name = "updated_on")
+    private LocalDateTime lastUpdatedOn;
+
     @PrePersist
     public void setCreationDate() {
         this.createdOn = LocalDateTime.now();
+        this.lastUpdatedOn = LocalDateTime.now();
     }
 
     protected BaseEntity() {
@@ -36,4 +40,8 @@ public abstract class BaseEntity {
     public void setCreatedOn(LocalDateTime createdOn) {
         this.createdOn = createdOn;
     }
+
+    public LocalDateTime getLastUpdatedOn() { return lastUpdatedOn; }
+
+    public void setLastUpdatedOn(LocalDateTime lastUpdatedOn) { this.lastUpdatedOn = lastUpdatedOn; }
 }

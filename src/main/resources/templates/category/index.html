@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="fragment/head :: head"></head>
+<body>
+
+<!-- Navbar -->
+<div th:replace="fragment/navbar :: navbar('home')">Navbar here</div>
+<!-- EO: Navbar -->
+
+<h1 class="text-center text-dark my-4">Life Tracker Categories</h1>
+<div class="text-center" th:if="${allCategories.size() == 0}">
+    <em>You still do not have any category created.</em>
+    <hr>
+    <a type="button"
+            th:href="@{/categories/create}"
+            class="btn btn-outline-primary btn-lg">
+        Create a new category
+    </a>
+<!--    <button type="button"-->
+<!--            class="open-add-to-cart-dialog btn btn-success btn-block"-->
+<!--            data-toggle="modal"-->
+<!--            data-target="#addToCartModal"-->
+<!--            th:data-id="*{pizza.id}">Add To Cart-->
+<!--    </button>-->
+</div>
+<div class="container">
+    <div class="row">
+        <th:block th:each="category : ${allCategories}">
+            <div class="col-sm-5 my-5 mx-auto">
+                <div class="card h-100">
+                    <div class="card-header bg-dark text-light text-center">
+                        <h5 class="card-title" th:text="${category.name}"></h5>
+                    </div>
+                    <div class="card-body text-center">
+                        <p class="card-text font-italic" th:text="${category.description}"></p>
+                        <div class="row">
+                            <div class="col">Events:
+                                <span th:text="${category.eventCount}"></span>
+                            </div>
+                            <div class="col">Problems:
+                                <span th:text="${category.problemCount}"></span>
+                            </div>
+                            <div class="col">Notes:
+                                <span th:text="${category.noteCount}"></span>
+                            </div>
+                        </div>
+                        <a href="#" class="btn btn-primary btn-success">Go somewhere</a>
+                    </div>
+                    <div class="card-footer text-muted">
+                        <div class="row">
+                            <div class="col">Created on:</div>
+                            <div class="col"><span th:text="${category.createdOn}"></span></div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col">Last updated on:</div>
+                            <div class="col text-info"><span th:text="${category.lastUpdatedOn}"></span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </th:block>
+    </div>
+</div>
+</body>
+</html>
