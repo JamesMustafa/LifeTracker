@@ -1,7 +1,6 @@
 package com.james.LifeTracker.db.entity;
 
 import com.james.LifeTracker.db.entity.common.BaseEntity;
-import com.james.LifeTracker.db.entity.common.PriorityEnum;
 
 import javax.persistence.*;
 
@@ -15,9 +14,8 @@ public class Problem extends BaseEntity {
     @Column(name = "description", columnDefinition = "TEXT")
     private String description;
 
-    @Enumerated(EnumType.ORDINAL)
     @Column(name = "priority", nullable = false)
-    private PriorityEnum priority;
+    private Integer priority;
 
     @ManyToOne(targetEntity = Category.class)
     @JoinColumn(name = "category_id", referencedColumnName = "id", nullable = false)
@@ -43,11 +41,11 @@ public class Problem extends BaseEntity {
         this.description = description;
     }
 
-    public PriorityEnum getPriority() {
+    public Integer getPriority() {
         return priority;
     }
 
-    public void setPriority(PriorityEnum priority) {
+    public void setPriority(Integer priority) {
         this.priority = priority;
     }
 

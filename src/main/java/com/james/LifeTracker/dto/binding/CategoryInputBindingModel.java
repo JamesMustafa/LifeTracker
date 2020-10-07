@@ -29,4 +29,6 @@ public class CategoryInputBindingModel {
     public void setDescription(String description) {
         this.description = description;
     }
+
+
 }

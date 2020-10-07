@@ -35,17 +35,17 @@
                     <div class="card-body text-center">
                         <p class="card-text font-italic" th:text="${category.description}"></p>
                         <div class="row">
-                            <div class="col">Events:
-                                <span th:text="${category.eventCount}"></span>
-                            </div>
-                            <div class="col">Problems:
-                                <span th:text="${category.problemCount}"></span>
-                            </div>
-                            <div class="col">Notes:
-                                <span th:text="${category.noteCount}"></span>
-                            </div>
+                            <div class="col"><a th:href="@{/categories/notes/{id}(id=${category.id})}" class="btn btn-outline-success w-100">Notes</a></div>
+                            <div class="col"><span th:text="${category.noteCount}"></span></div>
+                        </div><hr>
+                        <div class="row">
+                            <div class="col"><a href="#" class="btn btn-outline-warning w-100">Events</a></div>
+                            <div class="col"><span th:text="${category.eventCount}"></span></div>
+                        </div><hr>
+                        <div class="row">
+                            <div class="col"><a href="#" class="btn btn-outline-danger w-100">Problems</a></div>
+                            <div class="col"><span th:text="${category.problemCount}"></span></div>
                         </div>
-                        <a href="#" class="btn btn-primary btn-success">Go somewhere</a>
                     </div>
                     <div class="card-footer text-muted">
                         <div class="row">

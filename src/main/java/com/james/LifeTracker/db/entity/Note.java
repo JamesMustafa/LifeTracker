@@ -1,13 +1,16 @@
 package com.james.LifeTracker.db.entity;
 
 import com.james.LifeTracker.db.entity.common.BaseEntity;
-import com.james.LifeTracker.db.entity.common.PriorityEnum;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "notes")
 public class Note extends BaseEntity {
+
+    @Column(name = "name", nullable = false)
+    private String name;
 
     @Column(name = "description", columnDefinition = "TEXT", nullable = false)
     private String description;
@@ -16,9 +19,22 @@ public class Note extends BaseEntity {
     @JoinColumn(name = "category_id", referencedColumnName = "id", nullable = false)
     private Category category;
 
-    @Enumerated(EnumType.ORDINAL)
     @Column(name = "priority", nullable = false)
-    private PriorityEnum priority;
+    private Integer priority;
+
+    @ManyToMany(targetEntity = Comment.class, fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "notes_comments",
+            joinColumns = @JoinColumn(
+                    name = "note_id",
+                    referencedColumnName = "id"
+            ),
+            inverseJoinColumns = @JoinColumn(
+                    name = "comment_id",
+                    referencedColumnName = "id"
+            )
+    )
+    private List<Comment> comments;
 
     public Note() {
     }
@@ -41,11 +57,27 @@ public class Note extends BaseEntity {
         this.category = category;
     }
 
-    public PriorityEnum getPriority() {
+    public Integer getPriority() {
         return priority;
     }
 
-    public void setPriority(PriorityEnum priority) {
+    public void setPriority(Integer priority) {
         this.priority = priority;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
     }
 }

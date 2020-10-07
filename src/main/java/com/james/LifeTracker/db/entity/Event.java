@@ -1,14 +1,13 @@
 package com.james.LifeTracker.db.entity;
 
 import com.james.LifeTracker.db.entity.common.BaseEntity;
-import com.james.LifeTracker.db.entity.common.PriorityEnum;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "events")
-public class Event extends BaseEntity {
+public class Event extends BaseEntity{
 
     @Column(name = "name", nullable = false)
     private String name;
@@ -19,9 +18,8 @@ public class Event extends BaseEntity {
     @Column(name = "event_time")
     private LocalDateTime eventTime;
 
-    @Enumerated(EnumType.ORDINAL)
     @Column(name = "priority", nullable = false)
-    private PriorityEnum priority;
+    private Integer priority;
 
     @ManyToOne(targetEntity = Category.class)
     @JoinColumn(name = "category_id", referencedColumnName = "id", nullable = false)
@@ -55,11 +53,11 @@ public class Event extends BaseEntity {
         this.eventTime = eventTime;
     }
 
-    public PriorityEnum getPriority() {
+    public Integer getPriority() {
         return priority;
     }
 
-    public void setPriority(PriorityEnum priority) {
+    public void setPriority(Integer priority) {
         this.priority = priority;
     }
 
