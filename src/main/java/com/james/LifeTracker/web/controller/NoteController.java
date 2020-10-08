@@ -1,5 +1,6 @@
 package com.james.LifeTracker.web.controller;
 
+import com.james.LifeTracker.dto.binding.CommentInputBindingModel;
 import com.james.LifeTracker.dto.binding.NoteInputBindingModel;
 import com.james.LifeTracker.service.NoteService;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -41,6 +42,13 @@ public class NoteController {
         return "note/editNote";
     }
 
+    @GetMapping("/details/{id}")
+    public String getNoteDetails(@PathVariable("id") Long noteId, Model model){
+        model.addAttribute("note", this.noteService.findNoteDetailsById(noteId));
+        model.addAttribute("commentModel", new CommentInputBindingModel());
+        return "note/details";
+    }
+
     @PostMapping("/create")
     public String postCreatedNote(@Valid @ModelAttribute("createNote") NoteInputBindingModel noteModel,
                                   BindingResult bindingResult){
@@ -62,5 +70,11 @@ public class NoteController {
         }
         this.noteService.editNote(noteModel, id);
         return "redirect:/categories/notes/" + noteModel.getCategoryId();
+    }
+
+    @PostMapping("/delete")
+    public String hardDelete(@ModelAttribute(name="deleteId") Long deleteId) {
+        this.noteService.hardDelete(deleteId);
+        return "redirect:/categories";
     }
 }

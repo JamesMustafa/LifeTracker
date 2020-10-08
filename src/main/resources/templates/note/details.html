@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="fragment/head :: head"></head>
+<body>
+
+<!-- Navbar -->
+<div th:replace="fragment/navbar :: navbar('home')">Navbar here</div>
+<!-- EO: Navbar -->
+
+<div class="text-center text-dark my-4 ">
+    <h1>Note: </h1>
+    <h1 class="font-italic" th:text="${note.name}"></h1>
+</div>
+            <div class="container">
+                <div class="card h-100">
+                    <div class="card-header bg-secondary text-light text-center">
+                        <h5 class="card-title" th:text="${note.name}"></h5>
+                    </div>
+                    <div class="card-body bg-light">
+                        <blockquote class="blockquote my-2 mx-5">
+                            <p class="card-text font-italic" th:text="${note.description}"></p>
+                            <div class="row">
+                                <div class="col text-left"><footer class="blockquote-footer">Created on: <cite th:text="${note.createdOn}"></cite></footer></div>
+                                <div class="col text-right"><footer class="blockquote-footer">Last updated: <cite th:text="${note.lastUpdatedOn}"></cite></footer></div>
+                            </div>
+                        </blockquote>
+                    </div>
+                </div>
+            </div>
+
+    <div class="container my-4">
+        <h2>Comments: </h2>
+        <div th:if="${note.comments.size() == 0}" class="font-italic">
+            <h5>You can add your first comment from here: </h5>
+        </div>
+        <th:block th:if="${note.comments.size() > 0}" th:each="comment : ${note.comments}">
+            <div class="card w-75">
+                <div class="card-body">
+                    <blockquote class="blockquote my-2 mx-5">
+                        <p class="card-text" th:text="${comment.commentText}"></p>
+                        <footer class="blockquote-footer text-right">Created on: <cite th:utext="${#strings.substring(comment.createdOn,0,10)}"></cite></footer>
+                    </blockquote>
+                </div>
+                <div class="card-footer text-muted" >
+                    <div class="row">
+                        <div class="col">
+                            <a href="#" class="btn btn-outline-warning">Edit</a>
+                            <a href="#" class="btn btn-outline-danger">Delete</a>
+                        </div>
+                        <div class="col text-right">
+                            <h5 class="card-title" th:text="|Priority:  ${comment.priority} /5|"></h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </th:block>
+    </div><hr>
+
+    <div class="container my-4">
+        <form th:action="@{/categories/notes/{id}/comment/save(id=${note.id})}" method="post" th:object="${commentModel}">
+            <div class="card w-75">
+                <div class="card-body">
+                    <div class="form-group">
+                        <textarea class="form-control"
+                          name="commentText"
+                          th:field="*{commentText}"
+                          placeholder="You can add your comment here..."
+                          th:errorclass="is-invalid"
+                          id="commentText"
+                          rows="3"></textarea>
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('commentText')}" th:errors="*{commentText}"></div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group w-50">
+                                <input type="range"
+                                       class="form-control-range"
+                                       id="priorityRange"
+                                       name="priority"
+                                       min="1"
+                                       max="5"
+                                       th:field="*{priority}"
+                                       th:errorclass="is-invalid">
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('priority')}" th:errors="*{priority}"></div>
+                            </div>
+                        </div>
+                        <div class="col text-right"><button type="submit" class="btn btn-outline-primary w-50">Add Comment</button></div>
+                    </div>
+                </div>
+        </form>
+    </div>
+</body>
+</html>

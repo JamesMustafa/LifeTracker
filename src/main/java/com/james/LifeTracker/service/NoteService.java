@@ -1,8 +1,12 @@
 package com.james.LifeTracker.service;
 
+import com.james.LifeTracker.db.entity.Comment;
 import com.james.LifeTracker.db.entity.Note;
 import com.james.LifeTracker.db.repository.NoteRepository;
+import com.james.LifeTracker.dto.binding.CommentInputBindingModel;
 import com.james.LifeTracker.dto.binding.NoteInputBindingModel;
+import com.james.LifeTracker.dto.view.CommentViewModel;
+import com.james.LifeTracker.dto.view.NoteDetailsViewModel;
 import com.james.LifeTracker.dto.view.NoteViewModel;
 import com.james.LifeTracker.util.DateFormat;
 import org.modelmapper.ModelMapper;
@@ -43,6 +47,23 @@ public class NoteService {
         note.setPriority(noteModel.getPriority());
         note.setLastUpdatedOn(LocalDateTime.now());
         return this.noteRepository.save(note);
+    }
+
+    @Transactional
+    public void hardDelete(Long noteId) {
+        this.noteRepository.deleteById(noteId);
+    }
+
+    public NoteDetailsViewModel findNoteDetailsById(Long noteId){
+        Note note = this.findNoteById(noteId);
+        NoteDetailsViewModel noteModel = this.modelMapper.map(this.findNoteById(noteId), NoteDetailsViewModel.class);
+        noteModel.setCreatedOn(DateFormat.getDateString(note.getCreatedOn()));
+        noteModel.setLastUpdatedOn(DateFormat.getTimeAgo(note.getLastUpdatedOn()));
+        noteModel.setComments(note.getComments()
+                .stream()
+                .map(c -> this.modelMapper.map(c, CommentViewModel.class))
+                .collect(Collectors.toList()));
+        return noteModel;
     }
 
     public Note findNoteById(Long noteId){ return this.noteRepository.findById(noteId).orElseThrow(); }

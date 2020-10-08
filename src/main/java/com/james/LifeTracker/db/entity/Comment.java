@@ -3,6 +3,7 @@ package com.james.LifeTracker.db.entity;
 import com.james.LifeTracker.db.entity.common.BaseEntity;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "comments")
@@ -13,6 +14,9 @@ public class Comment extends BaseEntity {
 
     @Column(name = "priority", nullable = false)
     private Integer priority;
+
+    @ManyToMany(mappedBy = "comments")
+    List<Note> notes;
 
     public Comment() {
     }
@@ -26,4 +30,8 @@ public class Comment extends BaseEntity {
     public Integer getPriority() { return priority; }
 
     public void setPriority(Integer priority) { this.priority = priority; }
+
+    public List<Note> getNotes() { return notes; }
+
+    public void setNotes(List<Note> notes) { this.notes = notes; }
 }

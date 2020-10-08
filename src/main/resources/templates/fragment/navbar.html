@@ -27,21 +27,15 @@
     </button>
     <!-- Project name -->
 
-<!--    <div class="collapse navbar-collapse" id="navbarSupportedContent">-->
-<!--        <ul class="navbar-nav mr-auto">-->
-<!--            <li sec:authorize="hasRole('USER')" class="nav-item">-->
-<!--                <div class="dropdown">-->
-<!--                    <a class="nav-link js-scroll-trigger dropdown-toggle btn-lg" data-toggle="dropdown">-->
-<!--                        Menu-->
-<!--                    </a>-->
-<!--                    <div class="dropdown-menu">-->
-<!--                        <a class="dropdown-item" th:href="@{/offers}">Offers</a>-->
-<!--                        <a class="dropdown-item" th:href="@{/orders/history}">Order History</a>-->
-<!--                        <div class="dropdown-divider"></div>-->
-<!--                        <a class="dropdown-item" th:href="@{/products}">View our Menu</a>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </li>-->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li sec:authorize="hasRole('USER')" class="nav-item">
+                <div class="dropdown">
+                    <a class="nav-link btn-lg" th:href="@{/categories}">
+                        Categories
+                    </a>
+                </div>
+            </li>
 
 <!--            <li sec:authorize="hasRole('USER')" class="nav-item">-->
 <!--                <div class="dropdown">-->
@@ -59,7 +53,7 @@
 <!--                    </div>-->
 <!--                </div>-->
 <!--            </li>-->
-<!--        </ul>-->
+        </ul>
 
 <!--        <ul class="navbar-nav ml-auto">-->
 <!--            <li sec:authorize="isAnonymous()" class="nav-item">-->
@@ -107,7 +101,7 @@
 <!--                </div>-->
 <!--            </li>-->
 <!--        </ul>-->
-<!--    </div>-->
+    </div>
 </nav>
 <!-- Navbar -->
 
