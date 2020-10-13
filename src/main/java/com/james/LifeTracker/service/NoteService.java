@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -72,8 +73,8 @@ public class NoteService {
         return this.modelMapper.map(this.findNoteById(noteId), NoteInputBindingModel.class);
     }
 
-    public List<NoteViewModel> getNotesByCategoryId(Long categoryId){
-        List<NoteViewModel> readyNotes = this.noteRepository.findAll()
+    public List<NoteViewModel> getNotesByCategoryId(Long categoryId, Integer noteSortId){
+        List<NoteViewModel> readyNotes = getNotesSorted(noteSortId)
                 .stream()
                 .filter(o -> o.getCategory().getId().equals(categoryId))
                 .map(o -> this.modelMapper.map(o, NoteViewModel.class))
@@ -90,4 +91,22 @@ public class NoteService {
         return readyNotes;
     }
 
+    private List<Note> getNotesSorted(Integer noteSortId){
+        List<Note> allNotes = new ArrayList<>();
+        switch (noteSortId){
+            case 0:
+                allNotes = this.noteRepository.findByOrderByIdDesc();
+                break;
+            case 1:
+                allNotes = this.noteRepository.findByOrderByPriorityDesc();
+                break;
+            case 2:
+                allNotes = this.noteRepository.findByOrderByCreatedOnAsc();
+                break;
+            case 3:
+                allNotes = this.noteRepository.findByOrderByLastUpdatedOnDesc();
+                break;
+        }
+        return allNotes;
+    }
 }

@@ -10,6 +10,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 @Controller
 @PreAuthorize("hasRole('USER')")
@@ -22,10 +23,17 @@ public class NoteController {
         this.noteService = noteService;
     }
 
-    @GetMapping("/{id}")
-    public String getNotes(@PathVariable("id") Long categoryId, Model model){
+    @GetMapping(value = {"/{id}", "/{id}/{noteSortId}"})
+    public String getNotes(@PathVariable("id") Long categoryId,
+                           @PathVariable(value = "noteSortId", required = false) Optional<Integer> noteSortId,
+                           Model model){
+        Integer newSortId = 0;
+        if (noteSortId.isPresent()) {
+            newSortId = noteSortId.get(); //returns the id
+            model.addAttribute("sortId", newSortId);
+        }
         model.addAttribute("categoryID", categoryId);
-        model.addAttribute("allNotes", this.noteService.getNotesByCategoryId(categoryId));
+        model.addAttribute("allNotes", this.noteService.getNotesByCategoryId(categoryId, newSortId));
         return "note/index";
     }
 
@@ -57,7 +65,7 @@ public class NoteController {
             return "note/createNote";
         }
         this.noteService.createNote(noteModel);
-        return "redirect:/categories/notes/" + noteModel.getCategoryId();
+        return "note/index/" + noteModel.getCategoryId();
     }
 
     @PostMapping("/edit/{id}")

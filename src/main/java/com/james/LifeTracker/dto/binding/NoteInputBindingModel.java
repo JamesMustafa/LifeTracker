@@ -9,7 +9,7 @@ public class NoteInputBindingModel {
     Long id;
 
     @NotNull(message = "Name cannot be null")
-    @Size(min = 3,max = 32, message = "Name must be more than 3 and less than 32 characters")
+    @Size(min = 3,max = 80, message = "Name must be more than 3 and less than 80 characters")
     private String name;
 
     @Size(min = 15, message = "Your note cannot be less than 15 characters.")

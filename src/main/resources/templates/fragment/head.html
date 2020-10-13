@@ -21,5 +21,17 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" type="text/javascript"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
+    <!--Activate Item script -->
+    <script>
+        function activateItem(){
+            var a = document.getElementById("sortId").value;
+            var x = document.getElementById(a);
+            var y = x.className;
+            x.className = y + " active";
+            console.log(x.className);
+        }
+    </script>
+    <!--Activate Item script -->
+
 </head>
 </html>

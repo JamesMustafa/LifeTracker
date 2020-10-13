@@ -26,11 +26,34 @@
 <div class="text-center" th:if="${allNotes.size() > 0}">
     <h1 class="text-center text-dark my-4">Notes For <span th:text="${allNotes.get(0).getCategoryName()}"></span></h1>
     <hr>
-    <a type="button"
-       th:href="@{/categories/notes/create/{id}(id=${categoryID})}"
-       class="btn btn-outline-primary btn-lg">
-        Create a new note
-    </a>
+    <div class="row">
+        <div class="col">
+            <a type="button"
+               th:href="@{/categories/notes/create/{id}(id=${categoryID})}"
+               class="btn btn-outline-primary btn-lg">
+                Create a new note
+            </a>
+        </div>
+        <div class="col">
+            <input type="hidden" id="sortId" th:value="*{sortId}">
+            <div class="dropdown show">
+                <a class="btn btn-outline-secondary btn-lg dropdown-toggle" href="#" role="button"
+                   id="dropdownMenuLink" data-toggle="dropdown"
+                   aria-haspopup="true" aria-expanded="false"
+                onclick="activateItem()">
+                    Sort By
+                </a>
+
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                    <a class="dropdown-item" id="0" th:href="@{/categories/notes/{id}/{noteSortId}(id=${categoryID}, noteSortId=0)}">Id (DESC)</a>
+                    <a class="dropdown-item" id="1" th:href="@{/categories/notes/{id}/{noteSortId}(id=${categoryID}, noteSortId=1)}">Priority (DESC)</a>
+                    <a class="dropdown-item" id="2" th:href="@{/categories/notes/{id}/{noteSortId}(id=${categoryID}, noteSortId=2)}">Created on (ASC)</a>
+                    <a class="dropdown-item" id="3" th:href="@{/categories/notes/{id}/{noteSortId}(id=${categoryID}, noteSortId=3)}">Last updated on (DESC)</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 <div class="container">
     <div class="row">
