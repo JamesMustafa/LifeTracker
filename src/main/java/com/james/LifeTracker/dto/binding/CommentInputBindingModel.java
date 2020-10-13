@@ -8,7 +8,7 @@ import javax.validation.constraints.Size;
 
 public class CommentInputBindingModel {
 
-    @NotEmpty(message = "Comment section could not be posted empty.")
+    @NotNull(message = "Comment section could not be posted empty.")
     @Size(min = 1, max = 500, message = "Comment should be between 1 and 500 characters")
     private String commentText;
 

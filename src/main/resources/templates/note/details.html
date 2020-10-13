@@ -29,13 +29,13 @@
                 </div>
             </div>
 
-    <div class="container my-4">
+    <div class="container">
         <h2>Comments: </h2>
         <div th:if="${note.comments.size() == 0}" class="font-italic">
             <h5>You can add your first comment from here: </h5>
         </div>
         <th:block th:if="${note.comments.size() > 0}" th:each="comment : ${note.comments}">
-            <div class="card w-75">
+            <div class="card w-75 my-4">
                 <div class="card-body">
                     <blockquote class="blockquote my-2 mx-5">
                         <p class="card-text" th:text="${comment.commentText}"></p>
@@ -45,8 +45,14 @@
                 <div class="card-footer text-muted" >
                     <div class="row">
                         <div class="col">
-                            <a href="#" class="btn btn-outline-warning">Edit</a>
-                            <a href="#" class="btn btn-outline-danger">Delete</a>
+                            <a th:href="@{/categories/notes/{id}/comment/edit/{commentId}(id=${note.id}, commentId=${comment.id})}" class="btn btn-outline-warning w-100">Edit</a>
+                        </div>
+                        <div class="col">
+                            <form id="formDelete" th:action="@{/comments/delete}" method="post">
+                                <input id="deleteId" name="deleteId" type="hidden" th:value="*{comment.id}"/>
+                                <input id="noteId" name="noteId" type="hidden" th:value="*{note.id}"/>
+                                <button type="submit" class="btn btn-outline-danger w-50">Delete</button>
+                            </form>
                         </div>
                         <div class="col text-right">
                             <h5 class="card-title" th:text="|Priority:  ${comment.priority} /5|"></h5>
@@ -55,7 +61,8 @@
                 </div>
             </div>
         </th:block>
-    </div><hr>
+    </div>
+<hr>
 
     <div class="container my-4">
         <form th:action="@{/categories/notes/{id}/comment/save(id=${note.id})}" method="post" th:object="${commentModel}">
@@ -90,6 +97,7 @@
                         <div class="col text-right"><button type="submit" class="btn btn-outline-primary w-50">Add Comment</button></div>
                     </div>
                 </div>
+            </div>
         </form>
     </div>
 </body>

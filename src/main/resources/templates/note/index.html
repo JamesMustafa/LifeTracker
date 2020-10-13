@@ -16,12 +16,6 @@
        class="btn btn-outline-primary btn-lg">
         Create a new note
     </a>
-    <!--    <button type="button"-->
-    <!--            class="open-add-to-cart-dialog btn btn-success btn-block"-->
-    <!--            data-toggle="modal"-->
-    <!--            data-target="#addToCartModal"-->
-    <!--            th:data-id="*{pizza.id}">Add To Cart-->
-    <!--    </button>-->
 </div>
 <div class="text-center" th:if="${allNotes.size() > 0}">
     <h1 class="text-center text-dark my-4">Notes For <span th:text="${allNotes.get(0).getCategoryName()}"></span></h1>

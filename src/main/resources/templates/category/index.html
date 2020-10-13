@@ -10,19 +10,21 @@
 
 <h1 class="text-center text-dark my-4">Life Tracker Categories</h1>
 <div class="text-center" th:if="${allCategories.size() == 0}">
-    <em>You still do not have any category created.</em>
+    <em>You still do not have any categories created.</em>
     <hr>
     <a type="button"
-            th:href="@{/categories/create}"
-            class="btn btn-outline-primary btn-lg">
+       th:href="@{/categories/create}"
+       class="btn btn-outline-primary btn-lg">
         Create a new category
     </a>
-<!--    <button type="button"-->
-<!--            class="open-add-to-cart-dialog btn btn-success btn-block"-->
-<!--            data-toggle="modal"-->
-<!--            data-target="#addToCartModal"-->
-<!--            th:data-id="*{pizza.id}">Add To Cart-->
-<!--    </button>-->
+</div>
+<div class="text-center" th:if="${allCategories.size() > 0}">
+    <hr>
+    <a type="button"
+       th:href="@{/categories/create}"
+       class="btn btn-outline-primary btn-lg">
+        Create a new category
+    </a>
 </div>
 <div class="container">
     <div class="row">

@@ -65,7 +65,7 @@ public class NoteController {
             return "note/createNote";
         }
         this.noteService.createNote(noteModel);
-        return "note/index/" + noteModel.getCategoryId();
+        return "redirect:/categories/notes/" + noteModel.getCategoryId();
     }
 
     @PostMapping("/edit/{id}")

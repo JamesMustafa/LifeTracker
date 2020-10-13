@@ -22,18 +22,8 @@ public class Note extends BaseEntity {
     @Column(name = "priority", nullable = false)
     private Integer priority;
 
-    @ManyToMany(targetEntity = Comment.class, fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "notes_comments",
-            joinColumns = @JoinColumn(
-                    name = "note_id",
-                    referencedColumnName = "id"
-            ),
-            inverseJoinColumns = @JoinColumn(
-                    name = "comment_id",
-                    referencedColumnName = "id"
-            )
-    )
+    @OneToMany(cascade = CascadeType.ALL,
+            mappedBy = "note", orphanRemoval = true)
     private List<Comment> comments;
 
     public Note() {

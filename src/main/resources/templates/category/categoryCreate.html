@@ -31,6 +31,7 @@
                       th:errorclass="is-invalid"
                       id="description"
                       rows="3"></textarea>
+            <small class="form-text text-left text-muted">Description is optional*</small>
             <div class="invalid-feedback" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></div>
         </div>
 

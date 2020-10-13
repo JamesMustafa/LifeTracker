@@ -15,8 +15,8 @@ public class Comment extends BaseEntity {
     @Column(name = "priority", nullable = false)
     private Integer priority;
 
-    @ManyToMany(mappedBy = "comments")
-    List<Note> notes;
+    @ManyToOne
+    private Note note;
 
     public Comment() {
     }
@@ -31,7 +31,7 @@ public class Comment extends BaseEntity {
 
     public void setPriority(Integer priority) { this.priority = priority; }
 
-    public List<Note> getNotes() { return notes; }
+    public Note getNote() { return note; }
 
-    public void setNotes(List<Note> notes) { this.notes = notes; }
+    public void setNote(Note note) { this.note = note; }
 }
