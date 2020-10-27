@@ -14,7 +14,7 @@ import java.util.Optional;
 
 @Controller
 @PreAuthorize("hasRole('USER')")
-@RequestMapping("/categories/notes")
+@RequestMapping("/notes")
 public class NoteController {
 
     private final NoteService noteService;
@@ -23,7 +23,35 @@ public class NoteController {
         this.noteService = noteService;
     }
 
-    @GetMapping(value = {"/{id}", "/{id}/{noteSortId}"})
+    @GetMapping(value = {"", "/{noteSortId}", "/view/{noteViewId}", "/{noteSortId}/view/{noteViewId}"})
+    public String getNotesIndex(
+            @PathVariable(value = "noteSortId", required = false) Optional<Integer> noteSortId,
+            @PathVariable(value = "noteViewId", required = false) Optional<Integer> noteViewId,
+            Model model){
+
+        Integer newSortId = 0;
+        Integer newViewId = 1;
+        if (noteSortId.isPresent()) {
+            newSortId = noteSortId.get(); //returns the id
+        }
+        if(noteViewId.isPresent()){
+            newViewId = noteViewId.get();
+            if(newViewId == 0){
+                model.addAttribute("allNotes", this.noteService.findAll(newSortId));
+            }
+            else model.addAttribute("allNotes", this.noteService.findAllNotesSmall(newSortId));
+
+        }
+        else {
+            model.addAttribute("allNotes", this.noteService.findAllNotesSmall(newSortId));
+        }
+        model.addAttribute("viewId", newViewId);
+        model.addAttribute("sortId", newSortId);
+        model.addAttribute("allCategories", this.noteService.findAllCategories());
+        return "note/index";
+    }
+
+    @GetMapping(value = {"/category/{id}", "/category/{id}/{noteSortId}"})
     public String getNotes(@PathVariable("id") Long categoryId,
                            @PathVariable(value = "noteSortId", required = false) Optional<Integer> noteSortId,
                            Model model){
@@ -33,8 +61,8 @@ public class NoteController {
             model.addAttribute("sortId", newSortId);
         }
         model.addAttribute("categoryID", categoryId);
-        model.addAttribute("allNotes", this.noteService.getNotesByCategoryId(categoryId, newSortId));
-        return "note/index";
+        model.addAttribute("allNotes", this.noteService.findNotesByCategoryId(categoryId, newSortId));
+        return "note/category";
     }
 
     @GetMapping("/create/{id}")
@@ -65,7 +93,7 @@ public class NoteController {
             return "note/createNote";
         }
         this.noteService.createNote(noteModel);
-        return "redirect:/categories/notes/" + noteModel.getCategoryId();
+        return "redirect:/notes/" + noteModel.getCategoryId();
     }
 
     @PostMapping("/edit/{id}")
@@ -77,7 +105,7 @@ public class NoteController {
             return "note/editNote";
         }
         this.noteService.editNote(noteModel, id);
-        return "redirect:/categories/notes/" + noteModel.getCategoryId();
+        return "redirect:/notes/" + noteModel.getCategoryId();
     }
 
     @PostMapping("/delete")

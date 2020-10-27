@@ -45,7 +45,7 @@
                 <div class="card-footer text-muted" >
                     <div class="row">
                         <div class="col">
-                            <a th:href="@{/categories/notes/{id}/comment/edit/{commentId}(id=${note.id}, commentId=${comment.id})}" class="btn btn-outline-warning w-100">Edit</a>
+                            <a th:href="@{/notes/{id}/comment/edit/{commentId}(id=${note.id}, commentId=${comment.id})}" class="btn btn-outline-warning w-100">Edit</a>
                         </div>
                         <div class="col">
                             <form id="formDelete" th:action="@{/comments/delete}" method="post">
@@ -65,7 +65,7 @@
 <hr>
 
     <div class="container my-4">
-        <form th:action="@{/categories/notes/{id}/comment/save(id=${note.id})}" method="post" th:object="${commentModel}">
+        <form th:action="@{/notes/{id}/comment/save(id=${note.id})}" method="post" th:object="${commentModel}">
             <div class="card w-75">
                 <div class="card-body">
                     <div class="form-group">

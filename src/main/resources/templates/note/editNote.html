@@ -9,7 +9,7 @@
 
 <div class="container center text-center my-4 w-50">
     <h1>Edit your note</h1>
-    <form th:action="@{/categories/notes/edit/{id}(id=${noteEditForm.id})}" method="post" th:object="${noteEditForm}">
+    <form th:action="@{/notes/edit/{id}(id=${noteEditForm.id})}" method="post" th:object="${noteEditForm}">
         <div class="form-group">
             <label for="name">Name</label>
             <input type="text"

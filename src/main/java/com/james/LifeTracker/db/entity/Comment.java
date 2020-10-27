@@ -18,6 +18,9 @@ public class Comment extends BaseEntity {
     @ManyToOne
     private Note note;
 
+    @ManyToOne
+    private Event event;
+
     public Comment() {
     }
 
@@ -31,7 +34,19 @@ public class Comment extends BaseEntity {
 
     public void setPriority(Integer priority) { this.priority = priority; }
 
-    public Note getNote() { return note; }
+    public Note getNote() {
+        return note;
+    }
 
-    public void setNote(Note note) { this.note = note; }
+    public void setNote(Note note) {
+        this.note = note;
+    }
+
+    public Event getEvent() {
+        return event;
+    }
+
+    public void setEvent(Event event) {
+        this.event = event;
+    }
 }

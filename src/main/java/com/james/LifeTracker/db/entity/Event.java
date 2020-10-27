@@ -4,6 +4,7 @@ import com.james.LifeTracker.db.entity.common.BaseEntity;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "events")
@@ -24,6 +25,11 @@ public class Event extends BaseEntity{
     @ManyToOne(targetEntity = Category.class)
     @JoinColumn(name = "category_id", referencedColumnName = "id", nullable = false)
     private Category category;
+
+    @OneToMany(cascade = CascadeType.ALL,
+            mappedBy = "note", orphanRemoval = true)
+    private List<Comment> comments;
+
 
     public Event() {
     }
@@ -68,4 +74,8 @@ public class Event extends BaseEntity{
     public void setCategory(Category category) {
         this.category = category;
     }
+
+    public List<Comment> getComments() { return comments; }
+
+    public void setComments(List<Comment> comments) { this.comments = comments; }
 }

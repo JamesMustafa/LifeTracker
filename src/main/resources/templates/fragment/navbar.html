@@ -36,6 +36,13 @@
                     </a>
                 </div>
             </li>
+            <li sec:authorize="hasRole('USER')" class="nav-item">
+                <div class="dropdown">
+                    <a class="nav-link btn-lg" th:href="@{/notes}">
+                        Notes
+                    </a>
+                </div>
+            </li>
 
 <!--            <li sec:authorize="hasRole('USER')" class="nav-item">-->
 <!--                <div class="dropdown">-->

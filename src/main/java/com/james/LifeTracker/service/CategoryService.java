@@ -38,6 +38,10 @@ public class CategoryService {
                 .orElseThrow(() -> new CategoryNotFoundException("Category with given id was not found!"));
     }
 
+    public List<Category> findAllCategories(){
+        return this.categoryRepository.findAll();
+    }
+
     public List<CategoryViewModel> findCategoriesByUser(String username){
 
         List<CategoryViewModel> readyCategories = this.categoryRepository.findAll()

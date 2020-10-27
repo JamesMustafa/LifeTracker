@@ -24,7 +24,7 @@ public class CommentController {
         this.noteService = noteService;
     }
 
-    @GetMapping("/categories/notes/{id}/comment/edit/{commentId}")
+    @GetMapping("/notes/{id}/comment/edit/{commentId}")
     public String getEditComment(@PathVariable("id") Long noteId,
                               @PathVariable("commentId") Long commentId,
                               Model model) {
@@ -34,19 +34,19 @@ public class CommentController {
         return "comment/editCommentNote";
     }
 
-    @PostMapping("/categories/notes/{id}/comment/save")
+    @PostMapping("/notes/{id}/comment/save")
     public String saveComment(@Valid @ModelAttribute("commentModel") CommentInputBindingModel commentModel,
                               @PathVariable("id") Long noteId,
                               BindingResult bindingResult){
 
         if (bindingResult.hasErrors()) {
-            return "redirect:/categories/notes/details/" + noteId;
+            return "redirect:/notes/details/" + noteId;
         }
         this.commentService.saveNoteComment(commentModel, noteId);
-        return "redirect:/categories/notes/details/" + noteId;
+        return "redirect:/notes/details/" + noteId;
     }
 
-    @PostMapping("/categories/notes/{id}/comment/edit/{editedId}")
+    @PostMapping("/notes/{id}/comment/edit/{editedId}")
     public String setEditComment(@Valid @ModelAttribute("commentEditForm") CommentInputBindingModel commentModel,
                                  @PathVariable("id") Long noteId,
                                  @PathVariable("editedId") Long commentId,
@@ -55,13 +55,13 @@ public class CommentController {
             return "comment/editCommentNote";
         }
         this.commentService.editComment(commentModel, commentId);
-        return "redirect:/categories/notes/details/" + noteId;
+        return "redirect:/notes/details/" + noteId;
     }
 
     @PostMapping("/comments/delete")
     public String hardDelete(@ModelAttribute(name="deleteId") Long deleteId,
                              @ModelAttribute(name = "noteId") Long noteId) {
         this.commentService.hardDelete(deleteId, noteId);
-        return "redirect:/categories/notes/details/" + noteId;
+        return "redirect:/notes/details/" + noteId;
     }
 }

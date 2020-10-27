@@ -4,6 +4,11 @@ import com.james.LifeTracker.db.entity.Event;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface EventRepository extends JpaRepository<Event, Long> {
+    List<Event> findByOrderByEventTimeDesc();
+    List<Event> findByOrderByPriorityDesc();
+    List<Event> findByOrderByLastUpdatedOnDesc();
 }

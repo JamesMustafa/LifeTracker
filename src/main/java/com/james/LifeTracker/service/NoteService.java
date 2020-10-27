@@ -5,11 +5,10 @@ import com.james.LifeTracker.db.entity.Note;
 import com.james.LifeTracker.db.repository.NoteRepository;
 import com.james.LifeTracker.dto.binding.CommentInputBindingModel;
 import com.james.LifeTracker.dto.binding.NoteInputBindingModel;
-import com.james.LifeTracker.dto.view.CommentViewModel;
-import com.james.LifeTracker.dto.view.NoteDetailsViewModel;
-import com.james.LifeTracker.dto.view.NoteViewModel;
+import com.james.LifeTracker.dto.view.*;
 import com.james.LifeTracker.util.DateFormat;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -73,22 +72,49 @@ public class NoteService {
         return this.modelMapper.map(this.findNoteById(noteId), NoteInputBindingModel.class);
     }
 
-    public List<NoteViewModel> getNotesByCategoryId(Long categoryId, Integer noteSortId){
+    public List<NoteViewModel> findAll(Integer noteSortId){
+        List<NoteViewModel> findAllNotes = getNotesSorted(noteSortId)
+                .stream()
+                .map(o -> this.modelMapper.map(o, NoteViewModel.class))
+                .collect(Collectors.toList());
+
+        return mapToNoteViewModel(findAllNotes);
+    }
+
+    public List<NoteSmallViewModel> findAllNotesSmall(Integer noteSortId){
+        return getNotesSorted(noteSortId)
+                .stream()
+                .map(o -> this.modelMapper.map(o, NoteSmallViewModel.class))
+                .collect(Collectors.toList());
+    }
+
+    public List<NoteViewModel> findNotesByCategoryId(Long categoryId, Integer noteSortId){
         List<NoteViewModel> readyNotes = getNotesSorted(noteSortId)
                 .stream()
                 .filter(o -> o.getCategory().getId().equals(categoryId))
                 .map(o -> this.modelMapper.map(o, NoteViewModel.class))
                 .collect(Collectors.toList());
 
+        return mapToNoteViewModel(readyNotes);
 
-        //Manual mappings for the harder stuff
-        for (var note: readyNotes) {
+    }
+
+    public List<NameAndIdViewModel> findAllCategories(){
+        return this.categoryService.findAllCategories()
+                .stream()
+                .map(o -> this.modelMapper.map(o, NameAndIdViewModel.class))
+                .collect(Collectors.toList());
+    }
+
+    //Manual mappings for the harder stuff
+    private List<NoteViewModel> mapToNoteViewModel(List<NoteViewModel> notes){
+        for (var note: notes) {
             note.setCreatedOn(DateFormat.getDateString(this.findNoteById(note.getId()).getCreatedOn()));
             note.setLastUpdatedOn(DateFormat.getTimeAgo(this.findNoteById(note.getId()).getLastUpdatedOn()));
             note.setCommentCount(this.findNoteById(note.getId()).getComments().size());
             note.setCategoryName(this.findNoteById(note.getId()).getCategory().getName());
         }
-        return readyNotes;
+        return notes;
     }
 
     private List<Note> getNotesSorted(Integer noteSortId){

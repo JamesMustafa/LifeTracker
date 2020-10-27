@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="fragment/head :: head"></head>
+<body>
+
+<!-- Navbar -->
+<div th:replace="fragment/navbar :: navbar('home')">Navbar here</div>
+<!-- EO: Navbar -->
+
+<div class="text-center" th:if="${allNotes.size() == 0}">
+    <h3 class="my-2 font-italic">You still do not have any notes created.</h3>
+    <hr>
+    <a type="button"
+       th:href="@{/notes/create/{id}(id=${categoryID})}"
+       class="btn btn-outline-primary btn-lg">
+        Create a new note
+    </a>
+</div>
+<div class="text-center" th:if="${allNotes.size() > 0}">
+    <h1 class="text-center text-dark my-4">Notes For <span th:text="${allNotes.get(0).getCategoryName()}"></span></h1>
+    <hr>
+    <div class="row">
+        <div class="col">
+            <a type="button"
+               th:href="@{/notes/create/{id}(id=${categoryID})}"
+               class="btn btn-outline-primary btn-lg">
+                Create a new note
+            </a>
+        </div>
+        <div class="col">
+            <input type="hidden" id="sortId" th:value="*{sortId}">
+            <div class="dropdown show">
+                <a class="btn btn-outline-secondary btn-lg dropdown-toggle" href="#" role="button"
+                   id="dropdownMenuLink" data-toggle="dropdown"
+                   aria-haspopup="true" aria-expanded="false"
+                onclick="activateItem()">
+                    Sort By
+                </a>
+
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                    <a class="dropdown-item" id="0" th:href="@{/notes/category/{id}/{noteSortId}(id=${categoryID}, noteSortId=0)}">Id (DESC)</a>
+                    <a class="dropdown-item" id="1" th:href="@{/notes/category/{id}/{noteSortId}(id=${categoryID}, noteSortId=1)}">Priority (DESC)</a>
+                    <a class="dropdown-item" id="2" th:href="@{/notes/category/{id}/{noteSortId}(id=${categoryID}, noteSortId=2)}">Created on (ASC)</a>
+                    <a class="dropdown-item" id="3" th:href="@{/notes/category/{id}/{noteSortId}(id=${categoryID}, noteSortId=3)}">Last updated on (DESC)</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class="container">
+    <div class="row">
+        <th:block th:each="note : ${allNotes}">
+            <div class="col-lg-10 my-5 mx-auto">
+                <div class="card h-100">
+                    <div class="card-header bg-dark text-light text-center">
+                        <h5 class="card-title" th:text="${note.name}"></h5>
+                    </div>
+                    <div class="card-body text-center">
+                        <p class="card-text font-italic" th:utext="|${#strings.substring(note.description,0,20)}...|"></p><hr>
+                        <div class="row">
+                            <div class="col"><a th:href="@{/notes/details/{id}(id=${note.id})}" class="btn btn-outline-success w-100">View Note</a></div>
+<!--                            <div class="col"><span th:text="${#strings.substring(text,0,99)}(text=${note.commentCount})"></span></div>-->
+                        </div>
+                        <div class="row mx-4 my-3 text-right">
+                            <div class="col">
+                                <a th:href="@{/notes/edit/{id}(id=${note.id})}" class="btn btn-outline-warning w-100 my-1">Edit</a>
+                                <form id="formDelete" th:action="@{/notes/delete}" method="post">
+                                    <input id="deleteId" name="deleteId" type="hidden" th:value="*{note.id}"/>
+                                    <button type="submit" class="btn btn-outline-danger w-100 my-1">Delete</button>
+                                </form>
+                            </div>
+                            <div class="col"><span class="font-italic text-muted">Additions to this note: </span><h1 class="text-info" th:text="|${note.commentCount}|"></h1></div>
+                            <div class="col"><span class="font-italic text-muted">Priority scale: </span><h1 class="text-success" th:text="|${note.priority} /5|"></h1></div>
+                        </div>
+                    </div>
+                    <div class="card-footer text-muted">
+                        <div class="row">
+                            <div class="col">Created on: <span th:text="${note.createdOn}"></span></div>
+                            <div class="col">Last updated on: <span class="text-info text-align-right" th:text="${note.lastUpdatedOn}"></span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </th:block>
+    </div>
+</div>
+</body>
+</html>
